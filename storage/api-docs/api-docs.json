@@ -1,0 +1,202 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Celcoin Integration API",
+        "description": "API de integração com a Celcoin",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/api",
+            "description": "Servidor local"
+        }
+    ],
+    "paths": {
+        "/boletos": {
+            "post": {
+                "tags": [
+                    "Boletos"
+                ],
+                "summary": "Criar boleto na Celcoin",
+                "operationId": "79a6b939377fea04b9e4fd19a66d4019",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "externalId",
+                                    "merchantCatagoryCode",
+                                    "expirationAfterPayment",
+                                    "dueDate",
+                                    "amount",
+                                    "key",
+                                    "debtor",
+                                    "receiver"
+                                ],
+                                "properties": {
+                                    "externalId": {
+                                        "type": "string",
+                                        "example": "TesteSandbox_123"
+                                    },
+                                    "merchantCatagoryCode": {
+                                        "type": "string",
+                                        "example": "0000"
+                                    },
+                                    "expirationAfterPayment": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "dueDate": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-12-31"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 10
+                                    },
+                                    "key": {
+                                        "type": "string",
+                                        "example": "teste@chavepix.com.br"
+                                    },
+                                    "debtor": {
+                                        "required": [
+                                            "name",
+                                            "document",
+                                            "postalCode",
+                                            "city",
+                                            "publicArea",
+                                            "number",
+                                            "neighborhood",
+                                            "state"
+                                        ],
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Erick Augusto Farias"
+                                            },
+                                            "document": {
+                                                "type": "string",
+                                                "example": "42318970858"
+                                            },
+                                            "postalCode": {
+                                                "type": "string",
+                                                "example": "06474320"
+                                            },
+                                            "city": {
+                                                "type": "string",
+                                                "example": "Barueri"
+                                            },
+                                            "publicArea": {
+                                                "type": "string",
+                                                "example": "Alameda Holanda"
+                                            },
+                                            "number": {
+                                                "type": "string",
+                                                "example": "123"
+                                            },
+                                            "neighborhood": {
+                                                "type": "string",
+                                                "example": "Alphaville Residencial Um"
+                                            },
+                                            "state": {
+                                                "type": "string",
+                                                "example": "SP"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "receiver": {
+                                        "required": [
+                                            "account",
+                                            "document"
+                                        ],
+                                        "properties": {
+                                            "account": {
+                                                "type": "string",
+                                                "example": "300543550143"
+                                            },
+                                            "document": {
+                                                "type": "string",
+                                                "example": "46532252573"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "instructions": {
+                                        "properties": {
+                                            "fine": {
+                                                "type": "number",
+                                                "example": 10
+                                            },
+                                            "interest": {
+                                                "type": "number",
+                                                "example": 5
+                                            },
+                                            "discount": {
+                                                "properties": {
+                                                    "amount": {
+                                                        "type": "number",
+                                                        "example": 1
+                                                    },
+                                                    "modality": {
+                                                        "type": "string",
+                                                        "example": "fixed"
+                                                    },
+                                                    "limitDate": {
+                                                        "type": "string",
+                                                        "example": "2026-12-20T00:00:00.0000000"
+                                                    }
+                                                },
+                                                "type": "object",
+                                                "nullable": true
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Boleto criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "transactionId": {
+                                            "type": "string",
+                                            "example": "txn-001"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "CREATED"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Dados inválidos"
+                    },
+                    "500": {
+                        "description": "Erro ao criar boleto"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Boletos",
+            "description": "Boletos"
+        }
+    ]
+}
